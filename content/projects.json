@@ -1,0 +1,29 @@
+[
+  {
+    "title": "Rutgers Newark Bodega Project",
+    "role": "Student Lead",
+    "date": "2025-07-24",
+    "links": ["https://jjimenez723.github.io/Bodega-Project/"],
+    "summary": "Building a data-informed supply chain linking farms to bodegas.",
+    "tags": ["USDA", "Supply Chain"],
+    "image": "/avatar.png"
+  },
+  {
+    "title": "BiteSites",
+    "role": "Founder",
+    "date": "2024-01-01",
+    "links": ["https://bitesites.org/"],
+    "summary": "Boutique web design studio with converting forms and simple pricing.",
+    "tags": ["Web Design"],
+    "image": "/avatar.png"
+  },
+  {
+    "title": "OnScent Dashboards",
+    "role": "Automation Analyst",
+    "date": "2024-06-01",
+    "links": [],
+    "summary": "Created dashboards and Power Automate flows surfacing bottlenecks and live insights.",
+    "tags": ["Power Automate", "Analytics"],
+    "image": "/avatar.png"
+  }
+]
