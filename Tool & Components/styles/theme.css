@@ -1,0 +1,50 @@
+:root {
+  /* master prompt brand tokens */
+  --ink: #000000;
+  --gold: #FAD286;
+  --gray: #E2E2E2;
+  --rose: #FF0047;
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    /* keep same brand hues for dark for now */
+    --ink: #000000;
+    --gold: #FAD286;
+    --gray: #E2E2E2;
+    --rose: #FF0047;
+  }
+}
+
+[data-theme="dark"] {
+  --ink: #000000;
+  --gold: #FAD286;
+  --gray: #E2E2E2;
+  --rose: #FF0047;
+}
+
+.container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  max-width: 80rem;
+}
+
+.section {
+  padding-block: clamp(2rem, 6vw, 5rem);
+}
+
+.card {
+  background: var(--background);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray);
+}
+
+

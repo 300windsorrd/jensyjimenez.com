@@ -1,0 +1,732 @@
+/* z-index tokens */
+:root { 
+  --z-background: 0; 
+  --z-nav: 100; 
+  --z-overlay: 9999; 
+  --z-modal: 10000; 
+  --z-mobile-nav: 200001; /* Higher than desktop nav */
+}
+/* Style Selector */
+.style-selector {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 1001;
+  transition: all 0.3s ease;
+}
+
+/* Minimized State */
+.style-selector.minimized {
+  background: transparent;
+  width: auto;
+  height: auto;
+  border-radius: 9999px;
+  box-shadow: none;
+  border: none;
+}
+
+.style-selector-toggle {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #6b7280;
+  transition: all 0.2s ease;
+}
+
+/* Shiny "Customize" button */
+.style-selector-toggle.customize-button {
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 9999px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.style-selector-toggle.customize-button:hover {
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Dark mode: make Customize button black */
+:root[data-theme="dark"] .style-selector-toggle.customize-button {
+  background: #000;
+  border-color: #000;
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+}
+:root[data-theme="dark"] .style-selector-toggle.customize-button:hover {
+  background: #000;
+}
+
+.style-selector-toggle:hover {
+  color: #374151;
+}
+
+.style-selector-toggle svg {
+  transition: transform 0.2s ease;
+}
+
+.style-selector-toggle:hover svg {
+  transform: rotate(90deg);
+}
+
+/* Expanded State */
+.style-selector.expanded {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  padding: 10px 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 200px;
+}
+
+/* Make traditional selector less wide by default */
+.style-selector.expanded.traditional { width: 140px; }
+
+/* Center Customize button on Traditional nav */
+.style-selector.traditional {
+  left: 50%;
+  right: auto;
+  top: 35px;
+  transform: translateX(-50%);
+}
+
+/* Inline pill selector dropdown next to Customize */
+.pill-selector-inline .style-selector {
+  position: static;
+  top: auto;
+  right: auto;
+}
+
+.style-selector-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.style-selector-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.style-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.style-selector-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #6b7280;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.style-selector-close:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #374151;
+}
+
+.style-buttons {
+  display: flex;
+  gap: 3px;
+}
+
+.style-btn {
+  padding: 4px 8px;
+  font-size: 10px;
+  font-weight: 500;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #6b7280;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+  text-align: center;
+}
+
+.style-btn:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+  color: #374151;
+}
+
+.style-btn.active {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: #ffffff;
+}
+
+/* Mobile: ensure Customize is inline and selector stacks vertically */
+@media (max-width: 768px) {
+  /* Keep inline position for the style selector when rendered inside nav actions */
+  .inline-style-selector .style-selector {
+    position: relative;
+    top: auto;
+    right: auto;
+    left: auto;
+    transform: none;
+  }
+
+  /* Stack options vertically to save space */
+  .style-selector.expanded {
+    width: 180px;
+    padding: 10px 12px;
+  }
+  /* Tighter traditional selector on mobile */
+  .style-selector.expanded.traditional { width: 140px; }
+
+  .style-buttons {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .style-btn {
+    width: 100%;
+  }
+
+  /* Align actions inline with logo and leave room for hamburger */
+  .traditional-nav .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+  }
+
+  .traditional-nav .nav-container {
+    padding-right: 3rem; /* reserve space for absolute-positioned hamburger */
+  }
+}
+
+/* Traditional Navigation */
+.traditional-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200000; /* Ensure above backgrounds/effects */
+  background: color-mix(in oklab, var(--bg) 92%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+  transition: all 0.3s ease;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 70px;
+  gap: 2rem;
+  position: relative;
+}
+
+/* Leave space for the hamburger at far right */
+.traditional-nav .nav-container {
+  padding-right: 1rem;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+}
+
+.nav-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--txt);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.nav-logo:hover {
+  color: var(--brand);
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* Push actions to the right; align items horizontally */
+.traditional-nav .nav-actions {
+  margin-left: auto;
+}
+
+.nav-link {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--txt-muted);
+  text-decoration: none;
+  padding: 0.5rem 0;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--txt);
+}
+
+.nav-link.active {
+  /* Color will be set dynamically via inline styles */
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--active-underline-color, #3b82f6);
+  border-radius: 1px;
+}
+
+/* Mobile Menu Button */
+.mobile-menu-button {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 200006;
+  pointer-events: auto;
+}
+
+.hamburger {
+  width: 24px;
+  height: 2px;
+  background: var(--txt);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.hamburger::before,
+.hamburger::after {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 2px;
+  background: var(--txt);
+  transition: all 0.3s ease;
+}
+
+.hamburger::before {
+  top: -8px;
+}
+
+.hamburger::after {
+  bottom: -8px;
+}
+
+.hamburger.open {
+  background: transparent;
+}
+
+.hamburger.open::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+.hamburger.open::after {
+  bottom: 0;
+  transform: rotate(-45deg);
+}
+
+/* Mobile Menu */
+.mobile-menu-portal { position: fixed; inset: 0; z-index: 200001; }
+.mobile-scrim { position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 200001; }
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 70px;
+  left: 0;
+  right: 0;
+  background: color-mix(in oklab, var(--bg) 98%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+  padding: 1rem;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 200002; /* above nav and overlay */
+  will-change: transform, opacity;
+}
+
+.mobile-menu.open { display: flex; }
+
+.mobile-nav-link {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--txt-muted);
+  text-decoration: none;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--line);
+  transition: color 0.2s ease;
+}
+
+.mobile-nav-link:hover {
+  color: var(--txt);
+}
+
+.mobile-nav-link.active {
+  /* Color and background will be set dynamically via inline styles */
+}
+
+/* Removed fixed overrides to prevent layout conflicts between nav styles */
+
+/* Logo text styling for Next.js versions */
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--txt);
+}
+
+/* Card nav logo text specific styling */
+.card-nav .logo-text {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--txt);
+}
+
+/* Inline customize buttons */
+.inline-customize-toggle { background: var(--bg-elev); color: var(--txt); border: 1px solid var(--line); height: var(--nav-h, 44px); padding: 0 var(--pill-pad-x, 12px); border-radius: 9999px; display: inline-flex; align-items: center; justify-content: center; }
+.inline-customize-toggle:hover { background: color-mix(in oklab, var(--bg-elev) 92%, transparent); }
+
+/* Inline style selector container: morph from button */
+.inline-style-selector {
+  position: relative;
+  overflow: visible;
+  z-index: 2000;
+}
+
+.inline-style-selector .style-selector {
+  position: relative;
+  top: auto;
+  right: auto;
+  left: auto;
+  transform: none;
+}
+
+/* Card Nav: dedicated popover wrapper for inline customize */
+.style-selector-popover {
+  position: relative;
+  display: inline-block;
+  min-width: 260px;
+  max-width: 90vw;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--popover-bg, #ffffff);
+  color: var(--popover-fg, #111111);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  z-index: 2050;
+}
+.style-selector-popover .style-selector {
+  display: block;
+}
+
+.dark .style-selector-popover {
+  background: var(--popover-bg-dark, #0b0f19);
+  color: var(--popover-fg-dark, #e5e7eb);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+/* Card-nav specific alignment: match CTA height and baseline */
+.card-nav .nav-actions { display: flex; align-items: center; }
+.card-nav .style-selector-popover {
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 10px; /* match CTA horizontal rhythm */
+  border-radius: calc(0.75rem - 0.35rem); /* match CTA radius */
+  white-space: nowrap;
+}
+.card-nav .style-selector-popover .style-selector.expanded {
+  height: 100%;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+  width: auto;       /* override global 200px width */
+  min-width: 0;
+}
+.card-nav .style-selector-popover .style-selector-container {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+.card-nav .style-selector-popover .style-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+}
+.card-nav .style-selector-popover .style-selector-header { gap: 8px; }
+
+/* Remove fixed override for Card nav; positioning now handled inline with portal */
+
+/* Horizontal inline selector for desktop */
+@media (min-width: 769px) {
+  .inline-style-selector .style-selector.expanded {
+    display: flex;
+    align-items: center;
+    height: var(--nav-h, 44px);
+    border-radius: 9999px;
+    padding: 0 10px;
+    width: auto;
+    z-index: 2000;
+    white-space: nowrap;
+  }
+  .inline-style-selector .style-selector-container {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+  .inline-style-selector .style-selector-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .inline-style-selector .style-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+  }
+  .inline-style-selector .style-btn {
+    height: calc(var(--nav-h) - 10px);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    padding: 0 10px;
+  }
+}
+
+/* Morph effect */
+.inline-style-selector .style-selector.minimized .customize-button {
+  transform-origin: center;
+  transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease, height 0.3s ease;
+}
+
+.inline-style-selector .style-selector.expanded {
+  animation: selector-grow 0.28s ease forwards;
+}
+
+@keyframes selector-grow {
+  from { transform: scale(0.92); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .desktop-menu {
+    display: none;
+  }
+
+  .mobile-menu-button {
+    display: flex;
+  }
+
+  /* Keep mobile menu hidden until explicitly opened */
+  .mobile-menu { display: none; }
+  .mobile-menu.open { display: flex; }
+
+  .style-selector {
+    top: 10px;
+    right: 10px;
+  }
+
+  /* Dynamic positioning to avoid blocking hamburger/CTA */
+  .style-selector.traditional {
+    left: 50%;
+    right: auto;
+    top: 35px;
+    transform: translateX(-50%);
+  }
+
+  .style-selector.pill {
+    left: 10px;
+    right: auto;
+  }
+
+  /* CardNav has controls across the top; place Customize just below on the right */
+  .style-selector.card {
+    right: 10px;
+    left: auto;
+    top: 76px;
+  }
+
+  .style-selector.minimized {
+    width: auto;
+    height: auto;
+  }
+
+  .style-selector.expanded {
+    padding: 8px 10px;
+    width: 200px;
+  }
+  /* Tighter traditional selector on mobile */
+  .style-selector.expanded.traditional {
+    width: 136px;
+  }
+
+  /* Push actions left to avoid overlapping the hamburger */
+  .traditional-nav .nav-container {
+    padding-right: 3.75rem;
+  }
+
+  .style-btn {
+    font-size: 9px;
+    padding: 3px 6px;
+  }
+}
+
+/* Hide logo and nav-actions in pill mode on mobile to center hamburger */
+@media (max-width: 768px) {
+  .pill-nav .pill-logo { display: none; }
+  .pill-nav .nav-actions { display: none; }
+}
+
+@media (max-width: 480px) {
+  .nav-container {
+    padding: 0 0.75rem;
+  }
+
+  .nav-logo {
+    font-size: 1.25rem;
+  }
+
+  .style-selector {
+    top: 10px;
+    right: 10px;
+  }
+
+  .style-selector.minimized {
+    width: auto;
+    height: auto;
+  }
+
+  .style-selector.expanded {
+    padding: 6px 8px;
+    width: 200px;
+  }
+
+  .style-label {
+    font-size: 11px;
+  }
+
+  .style-btn {
+    font-size: 8px;
+    padding: 2px 4px;
+  }
+}
+
+/* Strong mobile overrides to keep Customize inline in traditional nav */
+@media (max-width: 768px) {
+  /* Ensure inline selector ignores fixed/centering rules */
+  .traditional-nav .inline-style-selector .style-selector.traditional {
+    position: relative;
+    top: 0;
+    right: auto;
+    left: auto;
+    transform: none;
+  }
+
+  /* Align the inline selector container vertically with nav height */
+  .traditional-nav .inline-style-selector {
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  /* Normalize Customize pill size to align with hamburger/theme pill */
+  .traditional-nav .inline-style-selector .style-selector-toggle.customize-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    padding: 0 12px;
+    line-height: 1;
+  }
+}
+
+/* Ensure content doesn't hide behind fixed nav for all navigation types */
+body.has-fixed-nav {
+  padding-top: 80px; /* Increased padding to account for navigation height + offset */
+}
+
+/* Ensure navigation is always accessible and properly positioned */
+header[role="banner"] {
+  position: relative;
+  z-index: 100000;
+}
+
+/* Ensure navigation container is properly positioned */
+.navigation-container {
+  position: relative;
+  z-index: 100000;
+}
+
+/* Non-sticky traditional nav overrides */
+.traditional-nav.non-sticky {
+  position: static;
+  background: transparent;
+  border-bottom: none;
+  backdrop-filter: none;
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Theme toggle */
+.nav-actions { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+
+/* Pill context: make the minimized selector look like a pill */
+.pill-selector-inline .style-selector.minimized .customize-button,
+.inline-style-selector .style-selector.minimized .customize-button {
+  background: var(--pill-bg, #fff);
+  color: var(--pill-text, #000);
+  height: var(--nav-h);
+  padding: 0 var(--pill-pad-x);
+  border-radius: 9999px;
+  border: none;
+}
+
+/* Dark mode for inline pill/minimized Customize button */
+:root[data-theme="dark"] .pill-selector-inline .style-selector.minimized .customize-button,
+:root[data-theme="dark"] .inline-style-selector .style-selector.minimized .customize-button {
+  background: #000;
+  color: #fff;
+}

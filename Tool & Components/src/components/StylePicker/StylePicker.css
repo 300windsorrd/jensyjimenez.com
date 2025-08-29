@@ -1,0 +1,59 @@
+.stylepicker {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.stylepicker.inline { /* inherit placement from parent */ }
+
+.stylepicker.minimized {}
+.stylepicker.expanded {}
+
+.sp-options {
+  display: inline-flex;
+  gap: 6px;
+}
+
+/* Traditional button look: align with .nav-actions in traditional nav */
+.sp-trad-btn {
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--bg-elev);
+  color: var(--txt);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.sp-trad-btn.active {
+  outline: 2px solid currentColor;
+  outline-offset: 1px;
+}
+
+/* Pill button look: reuse pill skeleton sizing */
+.sp-pill-btn {
+  --nav-h: 46px;
+  --pill-pad-x: 14px;
+  height: calc(var(--nav-h) - 4px);
+  padding: 0 var(--pill-pad-x);
+  border-radius: 9999px;
+  border: none;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+}
+
+.sp-pill-btn.active {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.sp-trad-btn:focus-visible,
+.sp-pill-btn:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+

@@ -1,0 +1,61 @@
+# Enhanced Site Scraper Configuration Example
+# Save this as config.yaml and use with --config config.yaml
+
+# Core scraping limits
+max_pages: 100
+max_depth: 3
+concurrency_pages: 4
+
+# Timeouts and delays (in milliseconds)
+navigation_timeout_ms: 30000
+network_idle_ms: 1500
+page_delay_ms: 200
+
+# Content filtering
+save_content_types:
+  - "text/html"
+  - "text/css"
+  - "application/javascript"
+  - "application/x-javascript"
+  - "image/"
+  - "font/"
+
+# Blocked host patterns (regex)
+block_host_patterns:
+  - "googletagmanager\\.com"
+  - "google-analytics\\.com"
+  - "hotjar\\.com"
+  - "facebook\\.com"
+  - "doubleclick\\.net"
+  - "googlesyndication\\.com"
+  - "analytics\\.example\\.com"
+
+# Browser settings
+headless: true
+user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+
+# Viewport sizes
+viewport_desktop:
+  width: 1920
+  height: 1080
+
+viewport_mobile:
+  width: 390
+  height: 844
+
+# Output options
+save_screenshots: true
+save_html: true
+save_assets: true
+collect_ui_inventory: true
+
+# Advanced settings
+retry_failed_pages: true
+max_retries: 3
+respect_robots_txt: false
+
+# Custom HTTP headers
+custom_headers:
+  Accept-Language: "en-US,en;q=0.9"
+  Accept-Encoding: "gzip, deflate, br"
+  DNT: "1"

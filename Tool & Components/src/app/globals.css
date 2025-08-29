@@ -1,0 +1,286 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Default design tokens - these will be overridden by the intake form */
+    --color-primary: #3B82F6;
+    --color-secondary: #64748B;
+    --color-accent: #F59E0B;
+    --color-neutral: #F8FAFC;
+    --color-success: #10B981;
+    --color-warning: #F59E0B;
+    --color-error: #EF4444;
+    
+    --font-headings: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    
+    --radius-xs: 0.25rem;
+    --radius-sm: 0.375rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    --spacing-2xl: 4rem;
+
+    /* Theme tokens */
+    --bg: #ffffff;
+    --bg-elev: #fafafa;
+    --txt: #111111;
+    --txt-muted: #555555;
+    --line: #e7e7e7;
+    --focus: #005fcc;
+    --brand: #4f46e5;
+    --brand-contrast: #ffffff;
+    --ok: #16a34a;
+    --warn: #d97706;
+    --err: #dc2626;
+    --shadow: 0 1px 2px rgba(0,0,0,.06), 0 6px 24px rgba(0,0,0,.1);
+    /* Animation tokens */
+    --t-fast: 120ms;
+    --t-med: 220ms;
+    --t-slow: 420ms;
+    --ease: cubic-bezier(.2,.6,.2,1);
+    color-scheme: light dark;
+  }
+
+  /* Ensure proper spacing for fixed navigation */
+  body {
+    padding-top: 80px; /* Account for fixed navigation height + offset */
+  }
+
+  /* Ensure navigation is always accessible */
+  header[role="banner"] {
+    position: relative;
+    z-index: 100000;
+  }
+
+
+  :root[data-theme="dark"] {
+    --bg: #0b0b0c;
+    --bg-elev: #121214;
+    --txt: #e9e9ee;
+    --txt-muted: #b3b3bd;
+    --line: #2a2a2f;
+    --focus: #7ab7ff;
+    --brand: #6e6af8;
+    --brand-contrast: #0b0b0c;
+    --shadow: 0 1px 2px rgba(0,0,0,.5), 0 6px 24px rgba(0,0,0,.35);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+      --bg: #0b0b0c;
+      --bg-elev: #121214;
+      --txt: #e9e9ee;
+      --txt-muted: #b3b3bd;
+      --line: #2a2a2f;
+      --focus: #7ab7ff;
+      --brand: #6e6af8;
+      --brand-contrast: #0b0b0c;
+      --shadow: 0 1px 2px rgba(0,0,0,.5), 0 6px 24px rgba(0,0,0,.35);
+    }
+  }
+
+
+
+  /* Respect user's motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Custom component styles */
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl;
+  }
+  
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:border-gray-400 hover:bg-gray-50 transition-all duration-200;
+  }
+  
+  .input-field {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300;
+  }
+}
+
+@layer utilities {
+  /* Custom utility classes */
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Dark-mode remap for legacy black text classes */
+  :root[data-theme="dark"] .text-black,
+  :root[data-theme="dark"] .text-gray-900,
+  :root[data-theme="dark"] .text-gray-800,
+  :root[data-theme="dark"] .text-gray-700,
+  :root[data-theme="dark"] .text-neutral-900,
+  :root[data-theme="dark"] .text-zinc-900,
+  :root[data-theme="dark"] .text-slate-900,
+  :root[data-theme="dark"] .text-stone-900 { color: var(--txt) !important; }
+  :root[data-theme="dark"] .hover\:text-black:hover,
+  :root[data-theme="dark"] .hover\:text-gray-900:hover { color: var(--txt) !important; }
+  :root[data-theme="dark"] .text-gray-600 { color: var(--txt-muted) !important; }
+  :root[data-theme="dark"] .text-gray-500 { color: var(--txt-muted) !important; }
+  :root[data-theme="dark"] .text-blue-600 { color: var(--brand) !important; }
+  :root[data-theme="dark"] .text-blue-600\/10 { color: color-mix(in srgb, var(--brand) 10%, transparent) !important; }
+
+  /* Background remaps for light defaults */
+  :root[data-theme="dark"] .bg-white { background-color: var(--bg-elev) !important; }
+  :root[data-theme="dark"] .bg-gray-50 { background-color: var(--bg) !important; }
+  :root[data-theme="dark"] .bg-gray-100 { background-color: var(--bg-elev) !important; }
+  :root[data-theme="dark"] .bg-gray-300 { background-color: var(--line) !important; }
+  :root[data-theme="dark"] .bg-blue-600 { background-color: var(--brand) !important; }
+  :root[data-theme="dark"] .hover\:bg-blue-700:hover { background-color: var(--brand) !important; }
+  :root[data-theme="dark"] .bg-white\/95 { background-color: var(--bg-raise) !important; }
+  :root[data-theme="dark"] .hover\:bg-gray-50:hover { background-color: var(--bg-elev) !important; }
+
+  /* Borders */
+  :root[data-theme="dark"] .border-gray-200,
+  :root[data-theme="dark"] .border-gray-300,
+  :root[data-theme="dark"] .border-gray-100,
+  :root[data-theme="dark"] .hover\:border-gray-400:hover { border-color: var(--line) !important; }
+
+  /* Ring color overrides */
+  :root[data-theme="dark"] .ring-black\/5 { --tw-ring-color: color-mix(in srgb, var(--txt) 8%, transparent) !important; }
+
+  /* Gradient stop overrides */
+  :root[data-theme="dark"] .from-gray-50 { --tw-gradient-from: var(--bg) !important; --tw-gradient-to: color-mix(in srgb, var(--bg) 0%, transparent) !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; }
+  :root[data-theme="dark"] .to-white { --tw-gradient-to: var(--bg-elev) !important; }
+
+  /* Pricing page dark purple overrides */
+  :root[data-theme="dark"] .pricing-hero-title,
+  :root[data-theme="dark"] .pricing-hero-subtext { color: #6d6af8 !important; }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Base themed surfaces */
+html, body {
+  background: var(--bg);
+  color: var(--txt);
+}
+
+a { color: var(--brand); }
+
+hr { border-color: var(--line); }
+
+/* Focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* Visually-hidden until focused skip link */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--brand);
+  color: var(--brand-contrast);
+  padding: 8px 12px;
+  z-index: 1000;
+  border-radius: 6px;
+  transition: top var(--t-fast) var(--ease);
+}
+.skip-link:focus {
+  top: 8px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track { background: var(--bg-elev); }
+
+::-webkit-scrollbar-thumb {
+  background: var(--brand);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #423ad6;
+}
+
+/* Token-based component defaults */
+.card {
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  color: var(--txt);
+}
+
+.input-field {
+  background: var(--bg);
+  color: var(--txt);
+  border-color: var(--line);
+}
+.input-field::placeholder { color: var(--txt-muted); }
+
+.btn-primary { background: var(--brand); color: var(--brand-contrast); border-color: transparent; }
+.btn-secondary { background: var(--bg-elev); color: var(--txt); border-color: var(--line); }
+
+/* Prevent transition flash when switching theme */
+html.theme-switching * { transition: none !important; }
+
+/* Smooth variable transitions */
+:root, body, .card, .btn-primary, .btn-secondary, a, hr, .rule {
+  transition:
+    background-color var(--t-slow) var(--ease),
+    color var(--t-slow) var(--ease),
+    border-color var(--t-slow) var(--ease),
+    box-shadow var(--t-slow) var(--ease);
+}
+
+/* Backdrop veil during theme switch */
+body::before {
+  content: "";
+  position: fixed; inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, transparent);
+  opacity: 0;
+  transition: opacity var(--t-fast) var(--ease);
+  z-index: 0;
+}
+
+html.theme-switching body::before {
+  opacity: .08;
+  background: radial-gradient(1200px 800px at 50% -20%, var(--bg-elev), transparent 70%);
+}
+
+/* Ensure app content stays above veil */
+main, header, footer { position: relative; z-index: 1; }
+/* Always keep primary nav/menu interactive above decorative layers */
+#primary-navigation { z-index: 10001; position: fixed; left: 0; right: 0; }
+
+@media print {
+  :root { --bg:#ffffff; --txt:#000000; }
+  body { background:#ffffff !important; color:#000000 !important; }
+}
